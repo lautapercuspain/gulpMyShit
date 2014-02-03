@@ -16,7 +16,8 @@ var gulp = require('gulp'),
     connect = require('connect'), 
     http = require('http'), 
     sass = require('gulp-sass'),
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    jade = require('gulp-jade');
 
 
 gulp.task('lint', function() {
@@ -42,7 +43,7 @@ gulp.task('browserify', function() {
             },
             'angular-route': {
                 path: 'app/bower_components/angular-route/angular-route.js',
-                exports: 'ngRoute',
+                exports: 'ngRouteModule',
                 depends: {
                     angular: 'angular'
                 }
@@ -62,6 +63,16 @@ gulp.task('browserify', function() {
         }))
         .pipe(concat('main.js'))
         .pipe(gulp.dest('./build/scripts'))
+});
+
+gulp.task('templates', function() {
+  var YOUR_LOCALS = {};
+
+  return gulp.src('./app/views/**.jade')
+    .pipe(jade({
+      locals: YOUR_LOCALS
+    }))
+    .pipe(gulp.dest('./build/views/'))
 });
 
 gulp.task('sassMyShit', function(){
@@ -103,10 +114,12 @@ gulp.task('minify-js', function() {
     .pipe(gulp.dest('./dist/scripts'))
 });
 
-gulp.task('watch', function(){
- return  gulp.src('app/**.**')
-        .pipe(watch())
-        .pipe(livereload(server));
+gulp.task('watch', function() {
+    return gulp.src(['./app/scripts/**/**.**','./app/styles/**.**','./app/views/**.**'])
+        .pipe(watch({ emit: 'all' }, function(files) {
+            files
+                .pipe(gulp.run('templates','sassMyShit', 'lint', 'browserify'));
+        }));
 });
 
 gulp.task("server", function(){
@@ -120,15 +133,17 @@ gulp.task("server", function(){
 
     http.createServer(app).listen(8888);
 
-   return gulp.src("./app/index.html")
+    gulp.run('watch');
+
+    return gulp.src("./app/index.html")
         .pipe(open("", options));
 });
 
 //Default task,. For minify use gulp-minify-
 gulp.task('default', function(){
-   runSequence('clean', ['browserify', 'lint','sassMyShit', 'watch' ,'server']);
+   runSequence('clean','templates', ['browserify', 'lint','sassMyShit' ],'server');
 });
 
 gulp.task('build', function(){
-  gulp.run('clean', 'browserify', 'lint', 'minify-js');
+  gulp.run('clean', 'templates', 'browserify', 'lint', 'minify-js');
 });

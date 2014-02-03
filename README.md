@@ -1,7 +1,8 @@
-Gulp / Browserify / Sass Setup
+Gulp / Browserify / Jade / Sass Setup
 =============
 
-Basic gulp browserify sass setup!
+Basic setup for web applications.
+
 
 Features:
 =======
@@ -10,13 +11,13 @@ Features:
 - Browserify
 - Angular
 - Bower
-- SASS
 - Bootstrap Sass
+- Jade
+- Watch 
 
 TODO LIST:
 =========
 - Optimize gulpfile with live-reload and karma 
-- Jade or handlebars whatever but not  good ol'html
 
 
 Installation:

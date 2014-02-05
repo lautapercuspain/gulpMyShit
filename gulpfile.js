@@ -106,7 +106,7 @@ gulp.task('imagemin', function () {
 
 //TODO add support for source maps
 gulp.task('minify-js', function() {
-  gulp.src('./app/scripts/**/*.js')
+  gulp.src('./build/scripts/**/*.js')
     .pipe(uglify({
             // inSourceMap: 
             // outSourceMap: "app.js.map"
@@ -139,11 +139,20 @@ gulp.task("server", function(){
         .pipe(open("", options));
 });
 
+gulp.task("copy_dist", function(){
+    return gulp.src([
+                './build/styles/**.css',
+                './build/**/**.html',
+            ])
+            .pipe(gulp.dest('./dist/*'));
+
+});
+
 //Default task,. For minify use gulp-minify-
 gulp.task('default', function(){
    runSequence('clean','templates', ['browserify', 'lint','sassMyShit' ],'server');
 });
 
 gulp.task('build', function(){
-  gulp.run('clean', 'templates', 'browserify', 'lint', 'minify-js');
+  runSequence('clean_dist', ['templates', 'lint','browserify' ], 'minify-js', 'copy_dist');
 });

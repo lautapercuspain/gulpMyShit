@@ -1,7 +1,4 @@
-ul
-    li Jade
-    li Bootstrap 3
-    li Sass
-    li Gulp
-    li Angular
-    li Browserify
+div(ng-controller="mainCtrl")
+  ul
+    li( ng-repeat="feature in features" on-finish-render )
+      h3 {{ feature }}

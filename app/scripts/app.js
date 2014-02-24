@@ -1,14 +1,17 @@
 var angular = require('angular');
 require('angular-route');
-require('angular-local-storage');
+require('./controllers/mainCtrl');
+require('./directives/postRender');
 
-var myApp = angular.module('myApp',['ngRoute']);
 
-calcApp.config(['$routeProvider',
+
+var myApp = angular.module('myApp',['controllers','directives', 'ngRoute']);
+
+myApp.config(['$routeProvider',
     function($routeProvider) {
          $routeProvider
                 .when('/', {
-                    templateUrl: 'views/main.html' 
+                    templateUrl: 'views/main.html'
                 })
                 .otherwise({
                     redirectTo: '/'

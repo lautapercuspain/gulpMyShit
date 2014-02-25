@@ -25,10 +25,7 @@ gulp.task('browserify', function() {
           insertGlobals : true,
           debug : true,
           shim: {
-            'scrollReveal': {
-                path: 'app/bower_components/scrollReveal.js/scrollReveal.js',
-                exports: 'scrollReveal'
-            },
+            
             'angular': {
                 path: 'app/bower_components/angular/angular.js',
                 exports: 'angular'

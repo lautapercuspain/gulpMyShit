@@ -116,9 +116,10 @@ gulp.task("server", function(){
     var options = {
         url: "http://localhost:8888"
     };
-    var app = connect()
+       var app = connect()
             .use(connect.logger('dev'))
             .use(connect.static('app'))
+            .use(connect.static('app/bower_components/bootstrap-sass'))
             .use(connect.static('build'));
 
     http.createServer(app).listen(8888);
@@ -129,12 +130,29 @@ gulp.task("server", function(){
         .pipe(tasks.open("", options));
 });
 
+gulp.task('buildserver', function(){
+    var app = connect()
+            .use(connect.static('dist'));
+    http.createServer(app).listen(process.env.PORT || 8888);
+});
+
+
 gulp.task("copy-dist", function(){
-    gulp.src('./app/styles/fonts/**.**')
-        .pipe(gulp.dest('./dist/styles/fonts/'));
+    gulp.src(['./app/fonts/**.**',
+                'app/bower_components/bootstrap-sass/fonts/**.**'])
+        .pipe(gulp.dest('./dist/fonts/'));
+    gulp.src('./app/data/**.**')
+        .pipe(gulp.dest('./dist/data/'));
+    gulp.src('./app/images/**.**')
+        .pipe(gulp.dest('./dist/images/'));
+    gulp.src('./app/**.ico')
+        .pipe(gulp.dest('./dist/')); 
+         
     return gulp.src([
                 './build/**/**.html',
                 './app/index.html',
+                './app/favicon.png',
+                './app/**.pdf'
             ])
             .pipe(gulp.dest('./dist/'));
 

@@ -1,11 +1,10 @@
 var angular = require('angular');
 require('angular-route');
 require('./controllers/mainCtrl');
-require('./directives/postRender');
+require('./services/services');
 
 
-
-var myApp = angular.module('myApp',['controllers','directives', 'ngRoute']);
+var myApp = angular.module('myApp',['controllers','directives', 'ngRoute','services']);
 
 myApp.config(['$routeProvider',
     function($routeProvider) {

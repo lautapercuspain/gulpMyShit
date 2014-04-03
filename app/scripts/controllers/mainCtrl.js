@@ -1,7 +1,7 @@
 var controllers = angular.module('controllers',  [])
 .controller('mainCtrl', [
-  '$scope', 
-  function($scope) {
+  '$scope', 'apiSrv',
+  function($scope, apiSrv) {
     
     $scope.features = [
       "Bootstrap Sass",
@@ -11,8 +11,4 @@ var controllers = angular.module('controllers',  [])
       "Browserify"
     ];
 
-    
-    $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-      //After render 
-    });
 }]);

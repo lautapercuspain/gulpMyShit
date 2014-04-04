@@ -1,12 +1,3 @@
+var apiSrv = require('./apiSrv');
 var services = angular.module('services', [])
-  .factory('apiSrv', ['$http', '$q', function($http, $q) {
-
-  var getUrls = function(){
-  
-  }
- 
-
-  return {
-      getUrls: getUrls
-    };
-}]);
+  .factory('apiSrv', ['$http', '$q',  apiSrv.srv]);

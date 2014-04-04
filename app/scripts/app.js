@@ -1,6 +1,6 @@
 var angular = require('angular');
 require('angular-route');
-require('./controllers/mainCtrl');
+require('./controllers/controllers');
 require('./services/services');
 
 
